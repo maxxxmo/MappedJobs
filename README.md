@@ -26,7 +26,8 @@ First we select last updates of docker-compose and postgresql:
 
 Security: I want to create a secured env so i dont want password in plain text. Password will be stored in .env and .env is added to .gitignore
 
-## 2. Postgresql Database
+## 2. Postgresql Database and api
+### postgresql init
 First we install these in our .venv:
 - requests -> send HTTP requests (SEND, POST) to the website
 - pandas -> transform data
@@ -39,45 +40,37 @@ Then i add it to requirements:
 - [sql alchemy](https://docs.sqlalchemy.org/en/20/core/engines.html) : Engine will do the translation between python to postgresql SQL database
 
 With this code we can insert an abritary dataset in the database:
-````import requests
-import pandas as pd
-from sqlalchemy import create_engine
 
-DB_URL = "postgresql://user_admin:password_123@localhost:5432/jobs_database"
+### API (Application Programming Interface)
+An API is a bridge between a Client and a Servor.
+![alt text](images/api_diagram.png)
+#### API REST
+According to Google:
+    A REST API is an API that follows the design principles of the REST architectural style. The basic principle of REST is the notion of resources, which can correspond to any element of information, such as a user, a product, a document or a collection of elements
+Explanation:
+It works with HTTP protocol:
+| Element | Role | Practical Example |
+| :--- | :--- | :--- |
+| **URL** (Endpoint) | The unique address identifying the resource. | `https://api.meteo.fr/v1/predict` |
+| **Method** (Verb) | Defines the type of action to be performed. | `GET`, `POST`, `PUT`, `DELETE` |
+| **Headers** (Metadata) | The "envelope": contains Auth tokens and data types. | `Authorization: Bearer <token>` |
+| **Body** (Payload) | The raw content (often JSON). Where your data lives. | `{"features": [5.1, 3.5, 1.4, 0.2]}` |
 
-data = [
-        {
-            "id": 1,
-            "titre": "Data Engineer",
-            "entreprise": "Tech Solutions",
-            "ville": "Paris",
-            "salaire": 55000
-        },
-        {
-            "id": 2,
-            "titre": "Analyste de données",
-            "entreprise": "Eco Data",
-            "ville": "Lyon",
-            "salaire": 42000
-        }
-    ]
+#### Security Protocol
+
+To exchange data we use a special protocol the ***OAuth2***
+1. Identification: The client (Me) holds a Client ID and a Client Secret (private key).
+
+2. The Gateway (/token): I sent those called ***credentials*** to a specific route on the API, usually called the /token endpoint.
+
+3. The Token (Access Token): After verification, the API issues a temporary Access Token (typically a JWT - JSON Web Token).
+
+4. The Secured Call: For every subsequent prediction request, i include this token in the Authorization Header.
 
 
 
-def test_pipeline():
-    # data transformation
-    df = pd.DataFrame(data)
-    
-    try:
-        engine = create_engine(DB_URL)
-        df.to_sql('raw_jobs', engine, if_exists='replace', index=False)
-        print("Sucess!!!!")
-    except Exception as e:
-        print(f"Error : {e}")
 
-if __name__ == "__main__":
-    test_pipeline()
-````
+
 
 ## Change of API --> using france travail
 [rules](https://francetravail.io/produits-partages/documentation/conditions-dutilisation-api/licence-offres-emploi)
