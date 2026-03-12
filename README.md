@@ -1,12 +1,17 @@
 # MappedJobs
 ## Presentation
-The goal is to display job offers around Paris in a force directed-graph in a 2D space.
-Example :
+The goal is to display job offers around Paris in a force directed-graph in a 2D space. 
+Force-directed graph Example :
 ![Force directed map example](images/force-directed.png)
 
-The data will be from OpenData:
-[OpenData reference](https://www.data.gouv.fr/datasets/offres-demploi-de-la-region-ile-de-france)
+The data will be from OpenData: [OpenData reference](https://www.data.gouv.fr/datasets/offres-demploi-de-la-region-ile-de-france)
 
+No, Change of API --> using france travail one
+
+[rules](https://francetravail.io/produits-partages/documentation/conditions-dutilisation-api/licence-offres-emploi), [portal](https://authentification-partenaire.francetravail.io/connexion/XUI/?realm=/partenaire&goto=https://authentification-partenaire.francetravail.io/connexion/oauth2/realms/root/realms/partenaire/authorize?realm%3D/partenaire%26response_type%3Dcode%26client_id%3DPAR_PN109-PEIO_7F2253D7E228B22A08BDA1F09C516F6FEAD81DF6536EB02FA991A34BB38D9BE8%26scope%3Dapplication_PAR_PN109-PEIO%2520email%2520openid%2520peiofront%2520sldng%2520profile%26redirect_uri%3Dhttps://francetravail.io/auth/auth.html%26state%3DnQ3GvTYDaSGZ2J_nYWdahA%26nonce%3D0U4bD9wir7elLGN3jUS2Lg#login/), [Utilisation](https://francetravail.io/produits-partages/documentation/utilisation-api-france-travail), Royaume : "https://api.francetravail.io/partenaire/offresdemploi"
+
+## Getting started
+TO DO: Explain how to install it and use it
 
 ## Workflow
 
@@ -27,7 +32,6 @@ First we select last updates of docker-compose and postgresql:
 Security: I want to create a secured env so i dont want password in plain text. Password will be stored in .env and .env is added to .gitignore
 
 ## 2. Postgresql Database and api
-### postgresql init
 First we install these in our .venv:
 - requests -> send HTTP requests (SEND, POST) to the website
 - pandas -> transform data
@@ -40,6 +44,9 @@ Then i add it to requirements:
 - [sql alchemy](https://docs.sqlalchemy.org/en/20/core/engines.html) : Engine will do the translation between python to postgresql SQL database
 
 With this code we can insert an abritary dataset in the database:
+
+### postgresql init
+DataBase is create with docker-compose. We will create an sqlAlchemy engine connected with the good url composed of password endpoint and user. And this engine will translate the python operations and send it to the DB.
 
 ### API (Application Programming Interface)
 An API is a bridge between a Client and a Servor.
@@ -72,11 +79,6 @@ To exchange data we use a special protocol the ***OAuth2***
 
 
 
-## Change of API --> using france travail
-[rules](https://francetravail.io/produits-partages/documentation/conditions-dutilisation-api/licence-offres-emploi)
-[portal](https://authentification-partenaire.francetravail.io/connexion/XUI/?realm=/partenaire&goto=https://authentification-partenaire.francetravail.io/connexion/oauth2/realms/root/realms/partenaire/authorize?realm%3D/partenaire%26response_type%3Dcode%26client_id%3DPAR_PN109-PEIO_7F2253D7E228B22A08BDA1F09C516F6FEAD81DF6536EB02FA991A34BB38D9BE8%26scope%3Dapplication_PAR_PN109-PEIO%2520email%2520openid%2520peiofront%2520sldng%2520profile%26redirect_uri%3Dhttps://francetravail.io/auth/auth.html%26state%3DnQ3GvTYDaSGZ2J_nYWdahA%26nonce%3D0U4bD9wir7elLGN3jUS2Lg#login/)
-[Utilisation](https://francetravail.io/produits-partages/documentation/utilisation-api-france-travail)
 
-Royaume : "https://api.francetravail.io/partenaire/offresdemploi"
 
 ## Directories
